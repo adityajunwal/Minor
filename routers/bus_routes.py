@@ -20,7 +20,7 @@ def get_bus_by_stop(stop_name: str):
     
     return buses["buses"]
 
-@bus_router.get("/{bus_number}")
+@bus_router.get("/search/{bus_number}")
 def get_bus_by_number(bus_number: int):
     bus = route_table.find_one({"busNumber": bus_number})
     if not bus:
