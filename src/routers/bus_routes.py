@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from db.dbsetup import route_table, stop_bus, serialize_out
-from models.bus_data import Bus
+from src.db.dbsetup import route_table, stop_bus, serialize_out
+from src.models.bus_data import Bus
 
 bus_router = APIRouter()
 
@@ -13,15 +13,15 @@ def get_all_stops():
     return out
 
 
-@bus_router.get("/search/{stop_name}", response_model=Bus)
+@bus_router.get("search/stop/{stop_name}", response_model=Bus)
 def get_bus_by_stop(stop_name: str):
-    buses = stop_bus.find_one({"stopname": stop_name})
-    if not buses:
+    bus = stop_bus.find_one({"stopname": stop_name})
+    if not bus:
         raise HTTPException(status_code=404, detail="Stop does not exist")
     
-    return buses["buses"]
+    return serialize_out(bus)
 
-@bus_router.get("/search/{bus_number}", response_class=Bus)
+@bus_router.get("search/number/{bus_number}", response_model=Bus)
 def get_bus_by_number(bus_number: int):
     bus = route_table.find_one({"busNumber": bus_number})
     if not bus:

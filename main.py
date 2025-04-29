@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from routers.bus_routes import bus_router
+from src.routers.bus_routes import bus_router
+from src.routers.admin_routes import admin_router
 
 current_version = "v2"
 
@@ -14,6 +15,12 @@ app.include_router(
     bus_router,
     prefix=f"/api/{current_version}/bus",
     tags=["bus"]
+)
+
+app.include_router(
+    admin_router,
+    prefix=f"/api/{current_version}/admin",
+    tags=["admin"]
 )
 
 app.add_middleware(
