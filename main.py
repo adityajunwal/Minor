@@ -17,11 +17,11 @@ app.include_router(
     tags=["bus"]
 )
 
-app.include_router(
-    admin_router,
-    prefix=f"/api/{current_version}/admin",
-    tags=["admin"]
-)
+# app.include_router(
+#     admin_router,
+#     prefix=f"/api/{current_version}/admin",
+#     tags=["admin"]
+# )
 
 app.add_middleware(
     CORSMiddleware,
