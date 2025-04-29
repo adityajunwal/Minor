@@ -17,8 +17,9 @@ def get_all_stops():
     return out 
 
 
-@bus_router.get("/search/stop/{stop_name}", response_model=List[Bus])
+@bus_router.get("/search/stop/", response_model=List[Bus])
 def get_bus_by_stop(stop_name: str):
+    print(stop_name)
     stop = stop_bus.find_one({"stopname": stop_name})
     
     if not stop:
@@ -30,7 +31,7 @@ def get_bus_by_stop(stop_name: str):
         out.append(serialize_out(bus))
     return out
 
-@bus_router.get("/search/number/{bus_number}", response_model=Bus)
+@bus_router.get("/search/number/", response_model=Bus)
 def get_bus_by_number(bus_number: int):
     bus = route_table.find_one({"busNumber": bus_number})
     if not bus:
