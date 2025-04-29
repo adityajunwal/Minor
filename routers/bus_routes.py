@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from db.dbsetup import route_table, stop_bus, serialize_out
+from models.bus_data import Bus
 
 bus_router = APIRouter()
 
@@ -12,7 +13,7 @@ def get_all_stops():
     return out
 
 
-@bus_router.get("/search/{stop_name}")
+@bus_router.get("/search/{stop_name}", response_model=Bus)
 def get_bus_by_stop(stop_name: str):
     buses = stop_bus.find_one({"stopname": stop_name})
     if not buses:
@@ -20,7 +21,7 @@ def get_bus_by_stop(stop_name: str):
     
     return buses["buses"]
 
-@bus_router.get("/search/{bus_number}")
+@bus_router.get("/search/{bus_number}", response_class=Bus)
 def get_bus_by_number(bus_number: int):
     bus = route_table.find_one({"busNumber": bus_number})
     if not bus:
